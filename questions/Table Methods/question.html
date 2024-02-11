@@ -3,7 +3,7 @@
     You're given the following table of some of the highest grossing actors and their most popular films! 
     You're interested in doing a study to see which actor has been in the most productions.
     </p>
-    <pl-dataframe params-name="df" show-python="false"></pl-dataframe>
+    <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
     </pl-question-panel>
     
     <div class="card my-2">
@@ -19,11 +19,12 @@
     <p>Select the operation and fill in the missing parameter!</p>
     actors.
 <pl-dropdown sort="ascend" answers-name="mcq">
-  <pl-answer correct="true">sort</pl-answer>
-  <pl-answer correct="false">group</pl-answer>
-  <pl-answer correct="false">where</pl-answer>
+  <pl-answer correct="true">SORT</pl-answer>
+  <pl-answer correct="false">GROUP</pl-answer>
+  <pl-answer correct="false">WHERE</pl-answer>
+  <pl-answer correct="false">TAKE</pl-answer>
 </pl-dropdown>
-("Number of Movies", desc = <pl-dropdown sort="ascend" answers-name="desc">
+("Number of Movies", descending= <pl-dropdown sort="ascend" answers-name="desc">
     <pl-answer correct="true">TRUE</pl-answer>
     <pl-answer correct="false">FALSE</pl-answer>
   </pl-dropdown>
