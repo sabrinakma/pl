@@ -33,9 +33,33 @@ def generate(data):
     #     else:    
     #         data["params"]["df"] = pl.to_json(df)
     # else:
-    #     data["params"]["df"] = pl.to_json(df)        
-
+    #     data["params"]["df"] = pl.to_json(df)   
     
+def parse(data):
+    if not data["submitted_answers"]["mcq"]:
+        data["format_errors"]["mcq"] = "Please select a table method."     
+    if not data["submitted_answers"]["desc"]:
+        data["format_errors"]["desc"] = "Please select the descending parameter."
+
+def grade(data):
+    d = {
+        "Actor": ["Harrison Ford", "Samuel L. Jackson", "Morgan Freeman", "Tom Hanks", "Robert Downey Jr.", "Eddie Murphy"],
+        "Total Gross": [4871.7, 4772.8, 4468.3, 4340.8, 3947.3, 3810.4],
+        "Number of Movies": [41,69,61,44,53,38],
+        "Avg per Movie": [118.8,69.2,73.3,98.7,74.5,100.3],
+        "#1 Movie": ["Star Wars: The Force Awakens", "The Avengers", "The Dark Knight", "Toy Story 3", "The Avengers", "Shrek 2"],
+        "Gross": [936.7,623.4,534.9,415,623.4,441.2]
+            }
+    df = pd.DataFrame(data=d)
+    if data["submitted_answers"]["mcq"] == "SORT":
+        if data["submitted_answers"]["desc"] == "FALSE":
+            df_sorted = df.sort_values(by="Number of Movies", ascending=True)
+            data["params"]["df"] = pl.to_json(df_sorted)
+        elif data["submitted_answers"]["desc"] == "TRUE":
+            df_sorted = df.sort_values(by="Number of Movies", ascending=False)
+            data["params"]["df"] = pl.to_json(df_sorted)
+        
+            
     
 # def parse(data):
 #     # use get() for submitted_answers in case no answer was submitted
