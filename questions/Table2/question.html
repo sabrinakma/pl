@@ -1,0 +1,51 @@
+<pl-question-panel>
+    <p>
+    You're given the following table of some of the highest grossing actors and their most popular films! 
+    You're interested in doing a study to see which actor has been in the most productions.
+    </p>
+    <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
+    </pl-question-panel>
+    
+    <div class="card my-2">
+    <div class="card-body">
+    
+    <pl-question-panel>
+    <p>
+    You want to list the actors by the number of productions they have been in, from the greatest to the least.
+    Considering this table, what should be the first table method used? Hint: we've identified the column that you want to perform the operation on!
+    Plus, which method utilizes a descending parameter?
+    </p>
+    </pl-question-panel>
+
+    <p>Select the operation and fill in the missing parameter!</p>
+    actors.
+<pl-dropdown sort="ascend" answers-name="mcq">
+  <pl-answer correct="true">SORT</pl-answer>
+  <pl-answer correct="false">GROUP</pl-answer>
+  <pl-answer correct="false">WHERE</pl-answer>
+  <pl-answer correct="false">TAKE</pl-answer>
+</pl-dropdown>
+("Number of Movies", descending= <pl-dropdown sort="ascend" answers-name="desc">
+    <pl-answer correct="true">TRUE</pl-answer>
+    <pl-answer correct="false">FALSE</pl-answer>
+  </pl-dropdown>
+)
+<p></p>
+
+
+    <!-- <pl-number-input answers-name="p_sum" label="$\sum_i P(X_i)=$"></pl-number-input>
+     -->
+    <!-- <pl-question-panel>
+      <hr>
+    </pl-question-panel> -->
+<!--     
+    <pl-question-panel>
+    <markdown>
+    Consider all $x$ events, which has the largest probability to occur?
+    </markdown>
+    </pl-question-panel>
+    
+    <pl-integer-input answers-name="big_event" label="$X=$"></pl-integer-input> -->
+    
+    </div>
+    </div>
