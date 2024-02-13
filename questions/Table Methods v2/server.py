@@ -3,6 +3,8 @@ import random
 import pandas as pd
 import prairielearn as pl
 
+#import d8 package?
+import datascience as ds
 
 def generate(data):
     
@@ -36,9 +38,9 @@ def generate(data):
     #     data["params"]["df"] = pl.to_json(df)   
     
 def parse(data):
-    if not data["submitted_answers"]["mcq"]:
+    if data["submitted_answers"]["mcq"] == "":
         data["format_errors"]["mcq"] = "Please select a table method."     
-    if not data["submitted_answers"]["desc"]:
+    if data["submitted_answers"]["desc"] == "":
         data["format_errors"]["desc"] = "Please select the descending parameter."
 
 def grade(data):
@@ -58,6 +60,23 @@ def grade(data):
         elif data["submitted_answers"]["desc"] == "TRUE":
             df_sorted = df.sort_values(by="Number of Movies", ascending=False)
             data["params"]["df"] = pl.to_json(df_sorted)
+    elif data["submitted_answers"]["mcq"] == "TAKE":
+        df_select = df.loc[:,["Number of Movies"]]
+        data["params"]["df"] = pl.to_json(df_select)
+        
+    elif data["submitted_answers"]["mcq"] == "GROUP":
+        df_group = df.groupby(["Number of Movies"]).size().reset_index(name="count")
+        data["params"]["df"] = pl.to_json(df_group)
+        
+    elif data["submitted_answers"]["mcq"] == "WHERE":
+        df_where = df.where(df["Number of Movies"] > 45)
+        data["params"]["df"] = pl.to_json(df_group)    
+        
+    # elif data["submitted_answers"]["mcq"] == "": #reset table?
+    #     data["params"]["df"] = pl.to_json(df)
+    # elif data["submitted_answers"]["mcq"] == "TAKE":
+    #     df_selected = df["Number of Movies"]
+    #     data["params"]["df"] = pl.to_json(df_selected)
         
             
     
