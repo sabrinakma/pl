@@ -4,7 +4,8 @@ import pandas as pd
 import prairielearn as pl
 
 #import d8 package?
-from datascience import *
+# from datascience import *
+import datascience as ds
 
 def generate(data):
     
