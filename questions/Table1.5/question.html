@@ -30,13 +30,52 @@
     <pl-answer correct="false">FALSE</pl-answer>
   </pl-dropdown>
 )
-<button id="gradeButton">Visualize</button>
+<!-- <input type="text" id="input"> -->
+<button onclick="sendData()">Visualize</button>
+
+<p>MCQ Value: <span id="mcqValue"></span></p>
+<p>DESC Value: <span id="descValue"></span></p>
 
 <p></p>
 </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+    function sendData() {
+        var mcq = $('pl-dropdown[answers-name="mcq"] pl-answer').text();
+        var desc = $('pl-dropdown[answers-name="desc"] pl-answer').text();
+
+        // Log the values of mcq and desc to the console
+        console.log('mcq:', mcq);
+        console.log('desc:', desc);
+
+        // Display the values on the page for testing
+        $('#mcqValue').text('MCQ: ' + mcq);
+        $('#descValue').text('DESC: ' + desc);
+
+        $.ajax({
+            url: 'http://localhost:3000/pl/course/question/8/',  // Adjust the URL as needed
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "mcq": mcq,
+                "desc": desc
+            }),
+            success: function(response) {
+                console.log('Success:', response);
+                // Handle success response here
+                var graded_df = response.df_sorted;
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error response here
+            }
+        });
+    }
+
+    /**
   document.getElementById("gradeButton").addEventListener("click", function() {
         fetch('http://localhost:3000/pl/course/1/question/8/',{
           method: 'POST',
@@ -58,4 +97,5 @@
           console.error('Error:', error);
       });
   });
+  */
   </script>

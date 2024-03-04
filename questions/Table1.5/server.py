@@ -60,10 +60,12 @@ def generate_2(data, mcq, desc):
     if mcq == "SORT":
         if desc == "TRUE":
             df_sorted = df.sort_values(by="Number of Movies", ascending=False)
-            data["params"]["df"] = pl.to_json(df_sorted)
+            #data["params"]["df"] = pl.to_json(df_sorted)
+            return df_sorted
         elif desc == "FALSE":
             df_sorted = df.sort_values(by="Number of Movies", ascending=True)
-            data["params"]["df"] = pl.to_json(df_sorted)
+            #data["params"]["df"] = pl.to_json(df_sorted)
+            return df_sorted
 
     
 def parse(data):
@@ -139,16 +141,8 @@ def grade_question():
     if request.method == 'POST':
         mcq = request.json.get('mcq','')
         desc = request.json.get('desc','')
-        generate_2(request.json,mcq,desc)
-        return jsonify({'message':'data is sent'})
-    
-# #dummy test
-# @app.route('/pl/course/test')
-# def test():
-#     return 'This is a test route.'    
+        df_sorted = generate_2(request.json,mcq,desc)
+        return jsonify({'graded_df': df_sorted.to_dict(orient='records')})
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-
-
