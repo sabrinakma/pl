@@ -30,23 +30,32 @@
     <pl-answer correct="false">FALSE</pl-answer>
   </pl-dropdown>
 )
-<button>Visualize</button>
+<button id="gradeButton">Visualize</button>
+
 <p></p>
+</div>
+</div>
 
-
-    <!-- <pl-number-input answers-name="p_sum" label="$\sum_i P(X_i)=$"></pl-number-input>
-     -->
-    <!-- <pl-question-panel>
-      <hr>
-    </pl-question-panel> -->
-<!--     
-    <pl-question-panel>
-    <markdown>
-    Consider all $x$ events, which has the largest probability to occur?
-    </markdown>
-    </pl-question-panel>
-    
-    <pl-integer-input answers-name="big_event" label="$X=$"></pl-integer-input> -->
-    
-    </div>
-    </div>
+<script>
+  document.getElementById("gradeButton").addEventListener("click", function() {
+      fetch('http://localhost:3000/pl/course/1/question/8/preview',{
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              "mcq": document.querySelector('pl-dropdown[answers-name="mcq"] pl-answer[correct="true"]').innerText,
+              "desc": document.querySelector('pl-dropdown[answers-name="desc"] pl-answer[correct="true"]').innerText
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          // Handle the response from the server
+          console.log(data);
+          // You can update the page with the graded data if needed
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  });
+  </script>
