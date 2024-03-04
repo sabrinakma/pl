@@ -134,7 +134,7 @@ def grade(data):
     
 root_path = '/Users/sabrinama/Downloads/pl'
 app = Flask(__name__, root_path = root_path)
-@app.route('/grade',methods=['POST'])
+@app.route('/pl/course/1/question/8/',methods=['POST'])
 def grade_question():
     if request.method == 'POST':
         mcq = request.json.get('mcq','')
@@ -142,5 +142,13 @@ def grade_question():
         generate_2(request.json,mcq,desc)
         return jsonify({'message':'data is sent'})
     
+# #dummy test
+# @app.route('/pl/course/test')
+# def test():
+#     return 'This is a test route.'    
+
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
+
