@@ -31,7 +31,7 @@
   </pl-dropdown>
 )
 <!-- <input type="text" id="input"> -->
-<button onclick="sendData()">Visualize</button>
+<button type="submit" onclick="sendData()">Visualize</button>
 
 <p>MCQ Value: <span id="mcqValue"></span></p>
 <p>DESC Value: <span id="descValue"></span></p>
@@ -43,6 +43,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    function test() {
+        print($('pl-dropdown[answers-name="mcq"] pl-answer').text());
+        <!-- var mcq = $('pl-dropdown[answers-name="mcq"] pl-answer').text();
+        var desc = $('pl-dropdown[answers-name="desc"] pl-answer').text();
+        console.log('mcq:', mcq);
+        console.log('desc:', desc); -->
+        
+    }
+
     function sendData() {
         var mcq = $('pl-dropdown[answers-name="mcq"] pl-answer').text();
         var desc = $('pl-dropdown[answers-name="desc"] pl-answer').text();

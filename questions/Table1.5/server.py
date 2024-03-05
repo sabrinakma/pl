@@ -12,7 +12,7 @@ import datascience as ds
 def generate(data):
     data["correct_answers"]["mcq"] = "SORT"
     data["correct_answers"]["desc"] = "TRUE"
-    
+        
     #next: import CSV instead of manually typing out table
     
     d = {
@@ -134,15 +134,20 @@ def grade(data):
 #         df_sorted = df.sort_values(by="Number of Movies", ascending=True)
 #         #data["params"]["df_incorrect"] = pl.to_json(df_sorted)
     
-root_path = '/Users/sabrinama/Downloads/pl'
-app = Flask(__name__, root_path = root_path)
-@app.route('/pl/course/1/question/8/',methods=['POST'])
-def grade_question():
-    if request.method == 'POST':
-        mcq = request.json.get('mcq','')
-        desc = request.json.get('desc','')
-        df_sorted = generate_2(request.json,mcq,desc)
-        return jsonify({'graded_df': df_sorted.to_dict(orient='records')})
+# root_path = '/Users/sabrinama/Downloads/pl'
+# app = Flask(__name__, root_path = root_path)
+# @app.route('/pl/course/1/question/8/',methods=['POST'])
+# def grade_question():
+#     if request.method == 'POST':
+#         mcq = request.json.get('mcq','')
+#         desc = request.json.get('desc','')
+#         df_sorted = generate_2(request.json,mcq,desc)
+#         return jsonify({'graded_df': df_sorted.to_dict(orient='records')})
+    
+# @app.route('/')
+# def test():
+#     return 'this is a test'
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     print("Starting server!")
+#     app.run(debug=True)
