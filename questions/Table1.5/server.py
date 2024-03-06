@@ -15,6 +15,7 @@ def generate(data):
         
     #next: import CSV instead of manually typing out table
     
+    
     d = {
         "Actor": ["Harrison Ford", "Samuel L. Jackson", "Morgan Freeman", "Tom Hanks", "Robert Downey Jr.", "Eddie Murphy"],
         "Total Gross": [4871.7, 4772.8, 4468.3, 4340.8, 3947.3, 3810.4],
