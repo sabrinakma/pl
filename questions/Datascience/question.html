@@ -1,6 +1,6 @@
 <pl-question-panel>
     <p>
-    Your job, as part of the US Department of Education team, is to use the table given to identify some information.
+    INSERT Q HERE
     </p>
     <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
     </pl-question-panel>
@@ -10,8 +10,7 @@
     
     <pl-question-panel>
     <p>
-    First, you want to find the states with the highest participation rates from lowest to highest.
-    You only want to focus on the top 5 states.
+    INSERT Q HERE
     </p>
     </pl-question-panel>
 
@@ -33,3 +32,137 @@
     
     </div>
     </div>
+
+    <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Table Operations</title>
+      </head>
+      <body>
+      
+      <table id="actorsTable">
+          <thead>
+              <tr>
+                  <th>Actor</th>
+                  <th>Total Gross</th>
+                  <th>Number of Movies</th>
+                  <th>Avg per Movie</th>
+                  <th>#1 Movie</th>
+                  <th>Gross</th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+      
+      <div>
+          <label for="operation">Select Operation:</label>
+          <select id="operation">
+              <option value="SORT">Sort by Number of Movies</option>
+              <option value="GROUP">Group by Number of Movies</option>
+              <option value="WHERE">Select Actors with more than 50 Movies</option>
+              <option value="TAKE">Limit to Top 3 Actors by Total Gross</option>
+          </select>
+          <button id="executeButton">Execute</button>
+      </div>
+      
+      <script>
+
+        /**
+        d = {
+        "Actor": ["Harrison Ford", "Samuel L. Jackson", "Morgan Freeman", "Tom Hanks", "Robert Downey Jr.", "Eddie Murphy"],
+        "Total Gross": [4871.7, 4772.8, 4468.3, 4340.8, 3947.3, 3810.4],
+        "Number of Movies": [41,69,61,44,53,38],
+        "Avg per Movie": [118.8,69.2,73.3,98.7,74.5,100.3],
+        "#1 Movie": ["Star Wars: The Force Awakens", "The Avengers", "The Dark Knight", "Toy Story 3", "The Avengers", "Shrek 2"],
+        "Gross": [936.7,623.4,534.9,415,623.4,441.2]
+            }
+        */
+          // Sample data (replace with actual data fetching if needed)
+          const actorsData = [
+              { Actor: "Harrison Ford", "Total Gross": 4871.7, "Number of Movies": 41, "Avg per Movie": 118.8, "#1 Movie": "Star Wars: The Force Awakens", Gross: 936.7 },
+              { Actor: "Samuel L. Jackson", "Total Gross": 4772.8, "Number of Movies": 69, "Avg per Movie": 69.2, "#1 Movie": "The Avengers", Gross: 623.4 },
+              { Actor: "Morgan Freeman", "Total Gross": 4468.3, "Number of Movies": 61, "Avg per Movie": 73.3, "#1 Movie": "The Dark Knight", Gross: 534.9 },
+              { Actor: "Tom Hanks", "Total Gross": 4340.8, "Number of Movies": 44, "Avg per Movie": 98.7, "#1 Movie": "Toy Story 3", Gross: 415}
+              // Add more data as needed
+          ];
+      
+          // Function to populate table with data
+          function populateTable(data) {
+              const tableBody = document.querySelector('#actorsTable tbody');
+              tableBody.innerHTML = ''; // Clear existing rows
+              data.forEach(actor => {
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                      <td>${actor.Actor}</td>
+                      <td>${actor['Total Gross']}</td>
+                      <td>${actor['Number of Movies']}</td>
+                      <td>${actor['Avg per Movie']}</td>
+                      <td>${actor['#1 Movie']}</td>
+                      <td>${actor.Gross}</td>
+                  `;
+                  tableBody.appendChild(row);
+              });
+          }
+      
+          // Function to sort table by number of movies
+          function sortTableByNumberOfMovies(column) {
+              actorsData.sort((a, b) => a[column] - b[column]);
+              populateTable(actorsData);
+          }
+      
+          // Function to group table by number of movies
+          function groupTableByNumberOfMovies(column) {
+              const groupedData = actorsData.reduce((acc, actor) => {
+                  const key = actor[column];
+                  if (!acc[key]) {
+                      acc[key] = [];
+                  }
+                  acc[key].push(actor);
+                  return acc;
+              }, {});
+              populateTable(Object.values(groupedData).flat());
+          }
+      
+          // Function to select actors with more than 50 movies
+          function selectActorsWithMoreThan50Movies(column) {
+              const selectedActors = actorsData.filter(actor => actor[column] > 50);
+              populateTable(selectedActors);
+          }
+      
+          // Function to limit table to top N actors by total gross
+          function limitTableToTopActorsByTotalGross(limit) {
+              const sortedActors = [...actorsData].sort((a, b) => b['Total Gross'] - a['Total Gross']).slice(0, limit);
+              populateTable(sortedActors);
+          }
+      
+          // Function to execute selected operation
+          function executeOperation() {
+              const operation = document.getElementById('operation').value;
+              switch (operation) {
+                  case 'SORT':
+                      sortTableByNumberOfMovies('Number of Movies');
+                      break;
+                  case 'GROUP':
+                      groupTableByNumberOfMovies('Number of Movies');
+                      break;
+                  case 'WHERE':
+                      selectActorsWithMoreThan50Movies('Number of Movies');
+                      break;
+                  case 'TAKE':
+                      limitTableToTopActorsByTotalGross(3); // Limit to top 3 actors
+                      break;
+                  default:
+                      console.error('Invalid operation');
+              }
+          }
+      
+          // Populate table with initial data
+          populateTable(actorsData);
+      
+          // Add event listener to the execute button
+          document.getElementById('executeButton').addEventListener('click', executeOperation);
+      </script>
+      
+      </body>
+      </html>
