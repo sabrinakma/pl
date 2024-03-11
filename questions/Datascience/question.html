@@ -63,18 +63,23 @@
               <option value="WHERE">Select</option><p>Number of Movies</p>
               <option value="TAKE">Limit</option><p>Number of Movies</p>
           </select>
-
+<!-- 
           <form name="executeButton" method="POST">
             <input type="hidden" name="__action" value="execute" />
             <input type="hidden" name="__csrf_token" value="<%= __csrf_token %>" />
             <input type="hidden" name="executeButton" value="visualize" />
             <button type="submit" class="btn btn-info" id="executeButton">Execute</button>
-          </form>
+          </form> -->
 
-          <!-- <button id="executeButton">Execute</button> -->
+
+
+          <button id="executeButton">Execute</button>
       </div>
       
       <script>
+
+        // Add event listener to the execute button
+        document.getElementById('executeButton').addEventListener('click', executeOperation);
 
         /**
         d = {
@@ -169,7 +174,7 @@
           populateTable(actorsData);
       
           // Add event listener to the execute button
-          document.getElementById('executeButton').addEventListener('click', executeOperation);
+          // document.getElementById('executeButton').addEventListener('click', executeOperation);
       </script>
       
       </body>
