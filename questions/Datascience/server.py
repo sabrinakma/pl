@@ -62,4 +62,3 @@ def grade(data):
     #     df_selected = df["Number of Movies"]
     #     data["params"]["df"] = pl.to_json(df_selected)
     
-        
