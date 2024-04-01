@@ -57,7 +57,8 @@
       </table>
       
       <div>
-          <label for="operation">Operation:</label>
+        <!-- dropdown for selecting operation method -->
+          <label for="operation">Method:</label>
           <select id="operation">
               <option value="SORT">Sort</option><p>Number of Movies</p>
               <option value="GROUP">Group</option><p>Number of Movies</p>
@@ -74,6 +75,13 @@
             <option value="#1 Movie">#1 Movie</option>
             <option value="Gross">Gross</option>
         </select>
+
+        <select id="sortDesc" style="display: none;">
+            <option value="True">Descending = True</option>
+            <option value="False">Descending = False</option>
+        </select>
+
+        <input type="number" id="limitValue" style="display: none;" min="1" max="5" placeholder="Enter limit">
 <!-- 
           <form name="executeButton" method="POST">
             <input type="hidden" name="__action" value="execute" />
@@ -81,6 +89,16 @@
             <input type="hidden" name="executeButton" value="visualize" />
             <button type="submit" class="btn btn-info" id="executeButton">Execute</button>
           </form> -->
+
+
+          <select id="columnSelect" multiple style="display: none;">
+            <option value="Actor">Actor</option>
+            <option value="Total Gross">Total Gross</option>
+            <option value="Number of Movies">Number of Movies</option>
+            <option value="Avg per Movie">Avg per Movie</option>
+            <option value="#1 Movie">#1 Movie</option>
+            <option value="Gross">Gross</option>
+          </select>
 
 
 
@@ -95,9 +113,31 @@
         if (operation === 'SORT') {
             document.getElementById('sortColumn').style.display = 'inline-block';
             document.getElementById('executeButton').style.display = 'inline-block';
+            document.getElementById('sortDesc').style.display = 'inline-block';
+            document.getElementById('limitValue').style.display = 'none';
+            document.getElementById('columnSelect').style.display = 'none';
+        } else if (operation == 'TAKE') {
+            document.getElementById('limitValue').style.display = 'inline-block';
+            document.getElementById('executeButton').style.display = 'inline-block';
+            document.getElementById('sortColumn').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
+            document.getElementById('columnSelect').style.display = 'none';
+
+    
+        } else if (operation == 'WHERE') {
+            document.getElementById('columnSelect').style.display = 'inline-block';
+            document.getElementById('executeButton').style.display = 'inline-block';
+            document.getElementById('limitValue').style.display = 'none';
+            document.getElementById('sortColumn').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
+
         } else {
             document.getElementById('sortColumn').style.display = 'none';
+            document.getElementById('limitValue').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
             document.getElementById('executeButton').style.display = 'inline-block';
+            document.getElementById('columnSelect').style.display = 'none';
+
         }
     });
 
@@ -145,11 +185,29 @@
                   tableBody.appendChild(row);
               });
           }
+
+          //actorsData.sort((a, b) => a[column] - b[column]);
+        //populateTable(actorsData);
       
           // Function to sort table by number of movies
-          function sortTableByNumberOfMovies(column) {
-              actorsData.sort((a, b) => a[column] - b[column]);
-              populateTable(actorsData);
+          function sortTableByNumberOfMovies(column, desc) {
+            actorsData.sort((a, b) => {
+                const aValue = a[column];
+                const bValue = b[column];
+                
+                if (desc) {
+                    if (aValue > bValue) return -1;
+                    if (aValue < bValue) return 1;
+                    return 0;
+                } else {
+                    if (aValue < bValue) return -1;
+                    if (aValue > bValue) return 1;
+                    return 0;
+                }
+            });
+            populateTable(actorsData);
+
+
           }
       
           // Function to group table by number of movies
@@ -166,9 +224,17 @@
           }
       
           // Function to select actors with more than 50 movies
-          function selectActorsWithMoreThan50Movies(column) {
-              const selectedActors = actorsData.filter(actor => actor[column] > 50);
-              populateTable(selectedActors);
+          function selectActors(selectedColumns) {
+            const tableData = actorsData.map(actor => {
+                const rowData = {};
+                Object.keys(actor).forEach(column => {
+                    if (selectedColumns.includes(column)) {
+                        rowData[column] = actor[column];
+                    }
+                });
+                return rowData;
+            });
+            populateTable(tableData);
           }
       
           // Function to limit table to top N actors by total gross
@@ -183,16 +249,19 @@
               switch (operation) {
                   case 'SORT':
                       const selectedColumn = document.getElementById('sortColumn').value;
-                      sortTableByNumberOfMovies(selectedColumn);
+                      const descending = document.getElementById('sortDesc').value == 'TRUE';
+                      sortTableByNumberOfMovies(selectedColumn, descending);
                       break;
                   case 'GROUP':
                       groupTableByNumberOfMovies('Number of Movies');
                       break;
                   case 'WHERE':
-                      selectActorsWithMoreThan50Movies('Number of Movies');
+                      const selectedColumns = Array.from(document.getElementById('columnSelect').selectedOptions).map(option => option.value);
+                      selectActors(selectedColumns);
                       break;
                   case 'TAKE':
-                      limitTableToTopActorsByTotalGross(3); // Limit to top 3 actors
+                      const limit = document.getElementById('limitValue').value;
+                      limitTableToTopActorsByTotalGross(parseInt(limit, 10)); // Limit to inputted limit
                       break;
                   default:
                       console.error('Invalid operation');
