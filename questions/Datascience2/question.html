@@ -1,26 +1,33 @@
 <pl-question-panel>
 
+    <p>You're tasked with identifying the next actor to hire for an upcoming blockbuster movie!</p>
+
+    <p>After asking for more information, the producers give you this table.</p>
+
     <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
     </pl-question-panel>
     
     <div class="card my-2">
     <div class="card-body">
 
-    <p>Select the operation and fill in the missing parameter! Feel free to use the playground below to help understand
-        the table transformations.
+    <p>Feel free to use the playground below to help understand table transformations. 
+        Note that the original table will stay the same above.
     </p>
-    school.
+
+    <!-- actors.
 <pl-dropdown sort="ascend" answers-name="operation">
   <pl-answer correct="true">SORT</pl-answer>
   <pl-answer correct="false">GROUP</pl-answer>
   <pl-answer correct="false">WHERE</pl-answer>
   <pl-answer correct="false">TAKE</pl-answer>
 </pl-dropdown>
-("Participation Rate", descending= <pl-dropdown sort="ascend" answers-name="desc">
+
+("Gross"", descending= <pl-dropdown sort="ascend" answers-name="desc">
     <pl-answer correct="true">TRUE</pl-answer>
     <pl-answer correct="false">FALSE</pl-answer>
   </pl-dropdown>
-)
+) -->
+
 <p></p>
 
     
@@ -55,8 +62,18 @@
               <option value="SORT">Sort</option><p>Number of Movies</p>
               <option value="GROUP">Group</option><p>Number of Movies</p>
               <option value="WHERE">Select</option><p>Number of Movies</p>
-              <option value="TAKE">Limit</option><p>Number of Movies</p>
+              <option value="TAKE">Take</option><p>Number of Movies</p>
           </select>
+
+            <!-- Dropdown for sorting columns -->
+        <select id="sortColumn" style="display: none;">
+            <option value="Actor">Actor</option>
+            <option value="Total Gross">Total Gross</option>
+            <option value="Number of Movies">Number of Movies</option>
+            <option value="Avg per Movie">Avg per Movie</option>
+            <option value="#1 Movie">#1 Movie</option>
+            <option value="Gross">Gross</option>
+        </select>
 <!-- 
           <form name="executeButton" method="POST">
             <input type="hidden" name="__action" value="execute" />
@@ -72,8 +89,22 @@
       
       <script>
 
+        // Add event listener to the operation select dropdown
+    document.getElementById('operation').addEventListener('change', function() {
+        const operation = this.value;
+        if (operation === 'SORT') {
+            document.getElementById('sortColumn').style.display = 'inline-block';
+            document.getElementById('executeButton').style.display = 'inline-block';
+        } else {
+            document.getElementById('sortColumn').style.display = 'none';
+            document.getElementById('executeButton').style.display = 'inline-block';
+        }
+    });
+
         // Add event listener to the execute button
         document.getElementById('executeButton').addEventListener('click', executeOperation);
+
+        
 
         /**
         d = {
@@ -93,6 +124,9 @@
               { Actor: "Tom Hanks", "Total Gross": 4340.8, "Number of Movies": 44, "Avg per Movie": 98.7, "#1 Movie": "Toy Story 3", Gross: 415}
               // Add more data as needed
           ];
+
+          // Add event listener to the execute button
+          document.getElementById('executeButton').addEventListener('click', executeOperation);
       
           // Function to populate table with data
           function populateTable(data) {
@@ -148,7 +182,8 @@
               const operation = document.getElementById('operation').value;
               switch (operation) {
                   case 'SORT':
-                      sortTableByNumberOfMovies('Number of Movies');
+                      const selectedColumn = document.getElementById('sortColumn').value;
+                      sortTableByNumberOfMovies(selectedColumn);
                       break;
                   case 'GROUP':
                       groupTableByNumberOfMovies('Number of Movies');
@@ -166,9 +201,6 @@
       
           // Populate table with initial data
           populateTable(actorsData);
-      
-          // Add event listener to the execute button
-          // document.getElementById('executeButton').addEventListener('click', executeOperation);
       </script>
       
       </body>
