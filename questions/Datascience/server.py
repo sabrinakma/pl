@@ -6,12 +6,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-#datascience specific imports
+"""#datascience specific imports
 import datascience
 from datascience import Table
 
 # table = Table.read_table('/Users/sabrinama/Downloads/actors.csv')
-actors_table = Table.read_table('https://www.inferentialthinking.com/data/sat2014.csv')
+actors_table = Table.read_table('https://www.inferentialthinking.com/data/sat2014.csv')"""
 
 def generate(data):
     data["correct_answers"]["operation"] = "SORT"
