@@ -81,7 +81,7 @@
             <option value="False">Descending = False</option>
         </select>
 
-        <input type="number" id="limitValue" style="display: none;" min="1" max="5" placeholder="Enter limit">
+        <input type="number" id="limitValue" style="display: none;" min="1" max="6" placeholder="Enter limit">
 <!-- 
           <form name="executeButton" method="POST">
             <input type="hidden" name="__action" value="execute" />
@@ -123,7 +123,6 @@
             document.getElementById('sortDesc').style.display = 'none';
             document.getElementById('columnSelect').style.display = 'none';
 
-    
         } else if (operation == 'WHERE') {
             document.getElementById('columnSelect').style.display = 'inline-block';
             document.getElementById('executeButton').style.display = 'inline-block';
@@ -161,7 +160,9 @@
               { Actor: "Harrison Ford", "Total Gross": 4871.7, "Number of Movies": 41, "Avg per Movie": 118.8, "#1 Movie": "Star Wars: The Force Awakens", Gross: 936.7 },
               { Actor: "Samuel L. Jackson", "Total Gross": 4772.8, "Number of Movies": 69, "Avg per Movie": 69.2, "#1 Movie": "The Avengers", Gross: 623.4 },
               { Actor: "Morgan Freeman", "Total Gross": 4468.3, "Number of Movies": 61, "Avg per Movie": 73.3, "#1 Movie": "The Dark Knight", Gross: 534.9 },
-              { Actor: "Tom Hanks", "Total Gross": 4340.8, "Number of Movies": 44, "Avg per Movie": 98.7, "#1 Movie": "Toy Story 3", Gross: 415}
+              { Actor: "Tom Hanks", "Total Gross": 4340.8, "Number of Movies": 44, "Avg per Movie": 98.7, "#1 Movie": "Toy Story 3", Gross: 415},
+              { Actor: "Robert Downey Jr.", "Total Gross": 3947.3, "Number of Movies": 53, "Avg per Movie": 74.5, "#1 Movie": "The Avengers", Gross: 623.4},
+              { Actor: "Eddie Murphey", "Total Gross": 3810.4, "Number of Movies":38, "Avg per Movie":100.3,"#1 Movie":"Shrek 2", Gross: 441.2}
               // Add more data as needed
           ];
 
