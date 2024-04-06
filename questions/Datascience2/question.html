@@ -100,6 +100,23 @@
             <option value="Gross">Gross</option>
           </select>
 
+          <select id="groupCol" style="display: none;">
+            <option value="Actor">Actor</option>
+            <option value="Total Gross">Total Gross</option>
+            <option value="Number of Movies">Number of Movies</option>
+            <option value="Avg per Movie">Avg per Movie</option>
+            <option value="#1 Movie">#1 Movie</option>
+            <option value="Gross">Gross</option>
+          </select>
+
+          <select id="groupAgg" style="display: none;">
+            <option value="Count">Count (default)</option>
+            <option value="Sum">Sum</option>
+            <option value="Min">Min</option>
+            <option value="Max">Max</option>
+            <option value="Np.mean">Np.mean</option>
+          </select>
+
 
 
           <button id="executeButton" type="button">Execute</button>
@@ -116,12 +133,16 @@
             document.getElementById('sortDesc').style.display = 'inline-block';
             document.getElementById('limitValue').style.display = 'none';
             document.getElementById('columnSelect').style.display = 'none';
+            document.getElementById('groupCol').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
         } else if (operation == 'SHOW') {
             document.getElementById('limitValue').style.display = 'inline-block';
             document.getElementById('executeButton').style.display = 'inline-block';
             document.getElementById('sortColumn').style.display = 'none';
             document.getElementById('sortDesc').style.display = 'none';
             document.getElementById('columnSelect').style.display = 'none';
+            document.getElementById('groupCol').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
 
         } else if (operation == 'WHERE') {
             document.getElementById('columnSelect').style.display = 'inline-block';
@@ -129,13 +150,26 @@
             document.getElementById('limitValue').style.display = 'none';
             document.getElementById('sortColumn').style.display = 'none';
             document.getElementById('sortDesc').style.display = 'none';
+            document.getElementById('groupCol').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
 
+        } else if (operation == 'GROUP') {
+            document.getElementById('executeButton').style.display = 'inline-block';
+            document.getElementById('groupCol').style.display = 'inline-block';
+            document.getElementById('groupAgg').style.display = 'inline-block';
+            document.getElementById('sortColumn').style.display = 'none';
+            document.getElementById('limitValue').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
+            document.getElementById('columnSelect').style.display = 'none';
         } else {
             document.getElementById('sortColumn').style.display = 'none';
             document.getElementById('limitValue').style.display = 'none';
             document.getElementById('sortDesc').style.display = 'none';
             document.getElementById('executeButton').style.display = 'inline-block';
             document.getElementById('columnSelect').style.display = 'none';
+            document.getElementById('groupCol').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
+
 
         }
     });
@@ -210,6 +244,66 @@
 
 
           }
+
+          // Function to group table by column and apply aggregation function
+        function groupTable(column, aggregation) {
+            // Reduce the data to create groups based on the selected column
+            const groupedData = actorsData.reduce((acc, actor) => {
+                const key = actor[column];
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+                acc[key].push(actor);
+                return acc;
+            }, {});
+
+            // Map over the grouped data to aggregate values based on the selected aggregation function
+            const aggregatedData = Object.entries(groupedData).map(([key, values]) => {
+                const aggregate = {};
+                aggregate[column] = key; // Set the grouped column as the key
+
+                // Apply aggregation function to other columns
+                if (aggregation) {
+                    // Iterate over the columns of the first object in the group to apply aggregation
+                    Object.keys(values[0]).forEach(col => {
+                        if (col !== column) {
+                            const colValues = values.map(obj => obj[col]); // Extract values for the current column
+                            switch (aggregation) {
+                                case 'Count':
+                                    // Count the number of values in the group
+                                    aggregate[`${col} ${aggregation}`] = values.length;
+                                    break;
+                                case 'Sum':
+                                    // Calculate the sum of values in the group
+                                    aggregate[`${col} ${aggregation}`] = colValues.reduce((a, b) => a + b, 0);
+                                    break;
+                                case 'Min':
+                                    // Find the minimum value in the group
+                                    aggregate[`${col} ${aggregation}`] = Math.min(...colValues);
+                                    break;
+                                case 'Max':
+                                    // Find the maximum value in the group
+                                    aggregate[`${col} ${aggregation}`] = Math.max(...colValues);
+                                    break;
+                                case 'Np.mean':
+                                    // Calculate the mean (average) value in the group
+                                    aggregate[`${col} ${aggregation}`] = colValues.reduce((a, b) => a + b, 0) / colValues.length;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+                } else {
+                    aggregate[`${col} Count`] = values.length;
+                }
+                return aggregate;
+            });
+            // Populate the table with the aggregated data
+            populateTable(aggregatedData);
+        }
+
+          
       
           // Function to group table by number of movies
           function groupTableByNumberOfMovies(column) {
@@ -254,7 +348,9 @@
                       sortTableByNumberOfMovies(selectedColumn, descending);
                       break;
                   case 'GROUP':
-                      groupTableByNumberOfMovies('Number of Movies');
+                      const groupCol = document.getElementById('groupCol').value;
+                      const groupAgg = document.getElementById('groupAgg').value;
+                      groupTable(groupCol, groupAgg);
                       break;
                   case 'WHERE':
                       const selectedColumns = Array.from(document.getElementById('columnSelect').selectedOptions).map(option => option.value);
