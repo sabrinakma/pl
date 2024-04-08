@@ -1,0 +1,89 @@
+<pl-question-panel>
+
+    <p>You're tasked with identifying the next actor to hire for an upcoming blockbuster movie!</p>
+
+    <p>After asking for more information, the producers give you this table.</p>
+
+    <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
+    </pl-question-panel>
+    
+    <div class="card my-2">
+    <div class="card-body">
+
+    <p>Feel free to use the playground below to help understand table transformations. 
+        Note that the original table will stay the same above.
+    </p>
+
+<p></p>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Load Table from CSV</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<table id="myTable">
+  <!-- Table contents will be loaded here -->
+</table>
+
+<script>
+// URL of the CSV file
+const csvUrl = 'https://www.inferentialthinking.com/data/sat2014.csv';
+
+// Function to fetch and parse CSV data
+async function fetchAndParseCSV(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch CSV file');
+        }
+        const csvData = await response.text();
+        return csvData;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Function to parse CSV data into a table
+function parseCSVIntoTable(csvData) {
+    const table = document.getElementById('myTable');
+    const rows = csvData.split('\n');
+    rows.forEach(row => {
+        const cells = row.split(',');
+        const tr = document.createElement('tr');
+        cells.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+}
+
+// Fetch CSV data and parse it into a table when the page loads
+document.addEventListener('DOMContentLoaded', async () => {
+    const csvData = await fetchAndParseCSV(csvUrl);
+    parseCSVIntoTable(csvData);
+});
+</script>
+
+</body>
+</html>
