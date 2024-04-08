@@ -1,0 +1,24 @@
+
+<pl-question-panel>
+
+<p> From the <b style="font-family: Consolas, 'Courier New', Monaco, monospace;">{{params.tbl_name}}</b> table below, {{params.question}}
+  </p>
+
+<p style="color: gray; font-size: 14px;">Note: The table shown below is a subset of the <b style="font-family: Consolas, 'Courier New', Monaco, monospace;">{{params.tbl_name}}</b> table.</p>
+<pl-python-variable params-name="df"></pl-python-variable>
+
+</pl-question-panel>
+<!--  label="$({{params.a}})_{10} =$" -->
+<p>
+<pl-string-input answers_name="b"  placeholder="answer in code" remove_spaces=True remove-leading-trailing=True></pl-string-input>
+</p>
+
+<pl-question-panel>
+  <!-- This is not part of the question, and is included for documentation purposes-->
+  <p></p>
+  <div class="alert alert-info p-2" role="alert">
+      <small>Note: this is an example of <i>drilling for mastery</i> question.
+        Read more <a href="https://github.com/PrairieLearn/PrairieLearn/blob/master/exampleCourse/courseInstances/SectionA/assessments/homework/template/__docs/docs.md" target="_blank">here</a>.</small>
+        <pl-github-link></pl-github-link>
+  </div>
+</pl-question-panel>
