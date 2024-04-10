@@ -1,0 +1,185 @@
+<pl-question-panel>
+
+    <p>You're tasked with identifying the next actor to hire for an upcoming blockbuster movie!</p>
+
+    <p>After asking for more information, the producers give you this table.</p>
+
+    <pl-dataframe params-name="df" show-python="false" show-index="false"></pl-dataframe>
+    </pl-question-panel>
+    
+    <div class="card my-2">
+    <div class="card-body">
+
+    <p>Feel free to use the playground below to help understand table transformations. 
+        Note that the original table will stay the same above.
+    </p>
+
+<p></p>
+
+<div>
+</div>
+
+<html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Table Operations</title>
+      </head>
+      <body>
+      
+      <table id="actorsTable">
+          <thead>
+              <tr>
+                  <th>Actor</th>
+                  <th>Total Gross</th>
+                  <th>Number of Movies</th>
+                  <th>Avg per Movie</th>
+                  <th>#1 Movie</th>
+                  <th>Gross</th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+
+
+<!-- 
+THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
+-->
+
+<div>
+<!-- dropdown for first operation -->
+    <label for="firstOp">First method:</label>
+    <select id="firstOp">
+        <option value="GROUP">Group</option>
+        <option value="WHERE">Where</option>
+    </select>
+
+<!-- dropdown for second operation -->
+    <label for="secondOp">Second method:</label>
+    <select id="secondOp">
+        <option value="SELECT">Select</option>
+        <option value="SORT">Sort</option>
+    </select>
+
+<!-- GROUP done --> 
+
+<select id="columnGroup" style="display: none;">
+    <p>column_or_labels=</p>
+    <option value="Actor">Actor</option>
+    <option value="Total Gross">Total Gross</option>
+    <option value="Number of Movies">Number of Movies</option>
+    <option value="Avg per Movie">Avg per Movie</option>
+    <option value="#1 Movie">#1 Movie</option>
+    <option value="Gross">Gross</option>
+  </select>
+
+<select id="groupAgg" style="display: none;">
+    <p>collect=</p>
+    <option value="Count">Count (default)</option>
+    <option value="Sum">Sum</option>
+    <option value="Min">Min</option>
+    <option value="Max">Max</option>
+    <option value="Np.mean">Np.mean</option>
+</select>
+
+    <!-- WHERE -->
+
+    <select id="columnWhere" style="display: none;">
+        <p>column_or_label=</p>
+        <option value="Actor">Actor</option>
+        <option value="Total Gross">Total Gross</option>
+        <option value="Number of Movies">Number of Movies</option>
+        <option value="Avg per Movie">Avg per Movie</option>
+        <option value="#1 Movie">#1 Movie</option>
+        <option value="Gross">Gross</option>
+    </select>
+
+    <select id="whereAre" style="display: none;">
+        <option value="above">are.above</option>
+        <option value="below">are.below</option>
+    </select>
+
+    <input type="number" id="whereValue" style="display: none;" placeholder="(i)">
+
+
+<!-- SELECT -->
+
+    <select id="columnSelect" multiple style="display: none;">
+        <option value="Actor">Actor</option>
+        <option value="Total Gross">Total Gross</option>
+        <option value="Number of Movies">Number of Movies</option>
+        <option value="Avg per Movie">Avg per Movie</option>
+        <option value="#1 Movie">#1 Movie</option>
+        <option value="Gross">Gross</option>
+      </select>
+
+
+
+
+<!-- SORT done -->
+
+    <select id="columnSort" style="display: none;">
+        <p>column_or_label=</p>
+        <option value="Actor">Actor</option>
+        <option value="Total Gross">Total Gross</option>
+        <option value="Number of Movies">Number of Movies</option>
+        <option value="Avg per Movie">Avg per Movie</option>
+        <option value="#1 Movie">#1 Movie</option>
+        <option value="Gross">Gross</option>
+    </select>
+
+    <select id="sortDesc" style="display: none;">
+        <p>descending=</p>
+        <option value="True">True</option>
+        <option value="False">False</option>
+    </select>
+
+<!-- END OF THE METHODS -->
+</div>
+
+<script>
+    function handleDropdownChange() {
+        const oper1 = document.getElementById('firstOp').value;
+        const oper2 = document.getElementById('secondOp').value;
+
+        const comboGroupSelect = (oper1 == 'GROUP' && oper2 == 'SELECT');
+        const comboGroupSort = (oper1 == 'GROUP' && oper2 == 'SORT');
+        const comboWhereSelect = (oper1 == 'WHERE' && oper2 == 'SELECT');
+        const comboWhereSort = (oper1 == 'WHERE' && oper2 == 'SORT');
+
+        if (comboGroupSelect) {
+            document.getElementById('columnGroup').style.display = 'inline-block';
+            document.getElementById('groupAgg').style.display = 'inline-block';
+            document.getElementById('columnSelect').style.display = 'inline-block';
+
+
+            document.getElementById('columnWhere').style.display = 'none';
+            document.getElementById('whereAre').style.display = 'none';
+            document.getElementById('whereValue').style.display = 'none';
+
+
+            document.getElementById('columnSort').style.display = 'none';
+            document.getElementById('columnDesc').style.display = 'none';
+
+
+
+        }
+
+            
+
+    
+    }
+
+
+    // Add event listeners to both dropdowns
+    document.getElementById('firstOp').addEventListener('change', handleDropdownChange);
+    document.getElementById('secondOp').addEventListener('change', handleDropdownChange);
+
+
+
+
+
+
+
+</script>
+
