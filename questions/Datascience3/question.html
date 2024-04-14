@@ -133,31 +133,7 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
 </div>
 
 <script>
-
-    function changeDropdowns() {
-        const oper1 = document.getElementById('firstOp').value;
-        const oper2 = document.getElementById('secondOp').value;
-
-        const group = (oper1 == 'GROUP')
-        const where = (oper1 == 'WHERE')
-        const select = (oper2 == 'SELECT')
-        const sort = (oper2 == 'SORT')
-
-        document.getElementById('columnGroup').style.display = group ? 'inline-block' : 'none';
-        document.getElementById('groupAgg').style.display = group ? 'inline-block' : 'none';
-
-        document.getElementById('columnWhere').style.display = where ? 'inline-block' : 'none';
-        document.getElementById('whereAre').style.display = where ? 'inline-block' : 'none';
-        document.getElementById('whereValue').style.display = where ? 'inline-block' : 'none';
-
-        document.getElementById('columnSort').style.display = sort ? 'inline-block' : 'none';
-        document.getElementById('sortDesc').style.display = sort ? 'inline-block' : 'none';
-
-
-        document.getElementById('columnSelect').style.display = select ? 'inline-block' : 'none';
-    }
-
-    function OLDhandleDropdownChange() {
+    function handleDropdownChange() {
         const oper1 = document.getElementById('firstOp').value;
         const oper2 = document.getElementById('secondOp').value;
 
