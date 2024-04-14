@@ -82,8 +82,7 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
     <option value="Np.mean">Np.mean</option>
 </select>
 
-    <!-- WHERE -->
-
+<!-- WHERE -->
     <select id="columnWhere" style="display: none;">
         <p>column_or_label=</p>
         <option value="Actor">Actor</option>
@@ -101,9 +100,7 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
 
     <input type="number" id="whereValue" style="display: none;" placeholder="(i)">
 
-
 <!-- SELECT -->
-
     <select id="columnSelect" multiple style="display: none;">
         <option value="Actor">Actor</option>
         <option value="Total Gross">Total Gross</option>
@@ -113,11 +110,7 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
         <option value="Gross">Gross</option>
       </select>
 
-
-
-
 <!-- SORT done -->
-
     <select id="columnSort" style="display: none;">
         <p>column_or_label=</p>
         <option value="Actor">Actor</option>
@@ -134,11 +127,37 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
         <option value="False">False</option>
     </select>
 
+    <button id="executeButton" type="button">Visualize</button>
+
 <!-- END OF THE METHODS -->
 </div>
 
 <script>
-    function handleDropdownChange() {
+
+    function changeDropdowns() {
+        const oper1 = document.getElementById('firstOp').value;
+        const oper2 = document.getElementById('secondOp').value;
+
+        const group = (oper1 == 'GROUP')
+        const where = (oper1 == 'WHERE')
+        const select = (oper2 == 'SELECT')
+        const sort = (oper2 == 'SORT')
+
+        document.getElementById('columnGroup').style.display = group ? 'inline-block' : 'none';
+        document.getElementById('groupAgg').style.display = group ? 'inline-block' : 'none';
+
+        document.getElementById('columnWhere').style.display = where ? 'inline-block' : 'none';
+        document.getElementById('whereAre').style.display = where ? 'inline-block' : 'none';
+        document.getElementById('whereValue').style.display = where ? 'inline-block' : 'none';
+
+        document.getElementById('columnSort').style.display = sort ? 'inline-block' : 'none';
+        document.getElementById('sortDesc').style.display = sort ? 'inline-block' : 'none';
+
+
+        document.getElementById('columnSelect').style.display = select ? 'inline-block' : 'none';
+    }
+
+    function OLDhandleDropdownChange() {
         const oper1 = document.getElementById('firstOp').value;
         const oper2 = document.getElementById('secondOp').value;
 
@@ -152,34 +171,61 @@ THIS IS THE PORTION OF CODE THAT CREATES THE DROPDOWNS!
             document.getElementById('groupAgg').style.display = 'inline-block';
             document.getElementById('columnSelect').style.display = 'inline-block';
 
-
             document.getElementById('columnWhere').style.display = 'none';
             document.getElementById('whereAre').style.display = 'none';
             document.getElementById('whereValue').style.display = 'none';
-
-
             document.getElementById('columnSort').style.display = 'none';
-            document.getElementById('columnDesc').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
+        } else if (comboGroupSort) {
+            document.getElementById('columnGroup').style.display = 'inline-block';
+            document.getElementById('groupAgg').style.display = 'inline-block';
+            document.getElementById('columnSort').style.display = 'inline-block';
+            document.getElementById('sortDesc').style.display = 'inline-block';
+
+            document.getElementById('columnSelect').style.display = 'none';
+            document.getElementById('columnWhere').style.display = 'none';
+            document.getElementById('whereAre').style.display = 'none';
+            document.getElementById('whereValue').style.display = 'none';
+        } else if (comboWhereSelect) {
+            document.getElementById('columnWhere').style.display = 'inline-block';
+            document.getElementById('whereAre').style.display = 'inline-block';
+            document.getElementById('whereValue').style.display = 'inline-block';
+            document.getElementById('columnSelect').style.display = 'inline-block';
 
 
+            document.getElementById('columnGroup').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
+            document.getElementById('columnSort').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
 
+        } else if (comboWhereSort) {
+            document.getElementById('columnWhere').style.display = 'inline-block';
+            document.getElementById('whereAre').style.display = 'inline-block';
+            document.getElementById('whereValue').style.display = 'inline-block';
+            document.getElementById('columnSort').style.display = 'inline-block';
+            document.getElementById('sortDesc').style.display = 'inline-block';
+
+            document.getElementById('columnGroup').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
+            document.getElementById('columnSelect').style.display = 'none';
+        } else {
+            document.getElementById('columnWhere').style.display = 'none';
+            document.getElementById('whereAre').style.display = 'none';
+            document.getElementById('whereValue').style.display = 'none';
+            document.getElementById('columnSort').style.display = 'none';
+            document.getElementById('sortDesc').style.display = 'none';
+            document.getElementById('columnGroup').style.display = 'none';
+            document.getElementById('groupAgg').style.display = 'none';
+            document.getElementById('columnSelect').style.display = 'none';
         }
-
-            
-
-    
     }
 
-
     // Add event listeners to both dropdowns
-    document.getElementById('firstOp').addEventListener('change', handleDropdownChange);
-    document.getElementById('secondOp').addEventListener('change', handleDropdownChange);
+    document.getElementById('firstOp').addEventListener('change', changeDropdowns);
+    document.getElementById('secondOp').addEventListener('change', changeDropdowns);
+    document.getElementById('executeButton').addEventListener('click', changeDropdowns)
 
-
-
-
-
-
+    
 
 </script>
 
