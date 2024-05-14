@@ -2,8 +2,8 @@ import random, math
 import pandas as pd
 import numpy as np
 import prairielearn as pl
-import datascience
-from datascience import Table
+#import datascience
+#from datascience import Table
 
 def generate(data):
     

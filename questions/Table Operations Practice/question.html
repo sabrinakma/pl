@@ -21,6 +21,7 @@
             margin-top: 20px; /* Spacing above the dropdowns */
             display: flex; /* Aligns dropdowns side by side */
             align-items: center; /* Aligns items vertically in the center */
+            flex-wrap: wrap; /* Children elements wrap onto a new line when they exceed the container's width */
         }
         .dropdown-label {
             font-family: Consolas, 'Courier New', Monaco, monospace;
@@ -115,7 +116,12 @@
       </div>
       <span class="dropdown-label"></span>
 </div>
+
+
       <button id="executeButton" type="button">Visualize</button>
+
+
+      <button id="copyButton" type="button">Copy</button>
 
 
         <script>
@@ -146,6 +152,39 @@ document.getElementById('funcSelect').addEventListener('change', function() {
 document.getElementById('functionSelect').addEventListener('change', function() {
   document.getElementById('funcSelect').value = 'func';  // Reset funcSelect to "function"
 });
+
+// Get the 'Copy' button element
+var copyButton = document.getElementById('copyButton');
+
+// Add a click event listener to the 'Copy' button
+copyButton.addEventListener('click', function() {
+  // Get the selected values from each dropdown
+  var columnSelectValue = document.getElementById('columnSelect').value;
+  var functionSelectValue = document.getElementById('functionSelect').value;
+  var funcSelectValue = document.getElementById('funcSelect').value;
+  var secondDropdownValue = document.getElementById('secondDropdown').value;
+  var thirdDropdownValue = document.getElementById('thirdDropdown').value;
+
+  // Get the labels from each dropdown
+  var columnSelectLabel = document.querySelector('#columnSelect option:checked').textContent;
+  var functionSelectLabel = document.querySelector('#functionSelect option:checked').textContent;
+  var funcSelectLabel = document.querySelector('#funcSelect option:checked').textContent;
+
+  // Create a string containing the desired format
+  var copiedText = "health.group('" + columnSelectLabel + "', " + functionSelectLabel + ")." + funcSelectLabel + "('" + secondDropdownValue + "', '" + thirdDropdownValue + ")";
+
+  // Copy the string to the clipboard
+  navigator.clipboard.writeText(copiedText)
+      .then(function() {
+          console.log('Text copied to clipboard: ' + copiedText);
+          // Optionally, you can provide user feedback here
+      })
+      .catch(function(err) {
+          console.error('Unable to copy text to clipboard: ', err);
+          // Optionally, you can provide error handling here
+      });
+});
+
 
 document.getElementById('funcSelect').addEventListener('change', function() {
   var selectedCategory = this.value;
